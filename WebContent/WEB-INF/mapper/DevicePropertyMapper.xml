@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.dao.DevicePropertyDao">
+
+	<resultMap type="DeviceProperty" id="DevicePropertyResult">
+		<id column="id" property="id" />
+		<result column="device_id" property="deviceId" />
+		<result column="tag" property="tag" />
+		<result column="property_name" property="propertyName" />
+		<result column="time_point" property="timePoint" />
+		<result column="action_count" property="actionCount" />
+		<result column="repetition" property="repetition" />
+		<result column="create_by" property="createBy" />
+		<result column="create_at" property="createAt" />
+	</resultMap>
+
+
+	<insert id="insertDeviceProperty" parameterType="java.util.List">
+		INSERT INTO
+		device_property(id,device_id,property_name,time_point,repetition,create_by,create_at,action_count,tag)
+		VALUES
+		(#{id},#{deviceId},#{propertyName},#{timePoint},#{repetition},#{createBy},#{createAt},#{actionCount},#{tag})
+
+	</insert>
+	
+	<select id="getTagByOrder" resultType="java.lang.Integer">
+		select tag from device_property where device_id=#{deviceId} ORDER BY tag
+	</select>
+	
+	<select id="getDeviceProperty" resultMap="DevicePropertyResult">
+		SELECT * from device_property
+		where device_id=#{deviceId}
+	</select>
+	
+	<select id="getPropertyByTime" resultMap="DevicePropertyResult">
+		SELECT * from device_property
+		where repetition like CONCAT('%','${week}','%' )
+		and ABS(UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(time_point))/60 &gt; 60 and ABS(UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(time_point))/60 &lt; 65
+	</select>
+	
+	<select id="getAllProperties" resultMap="DevicePropertyResult">
+		SELECT * from device_property
+		where property_name='watering' and repetition like CONCAT('%','${repetition}','%' )
+	</select>
+	
+	<select id="getDevicePropertyByType" resultMap="DevicePropertyResult">
+		SELECT * from device_property
+		where device_id=#{deviceId} and property_name=#{propertyName}
+	</select>
+	
+	<select id="getdevicePropertyById" resultMap="DevicePropertyResult">
+		SELECT * from device_property
+		where id=#{id}
+	</select>
+	
+	
+	<update id="updateDeviceProperty">
+		update device_property set 
+		repetition=#{repetition},time_point=#{timePoint}
+		where id=#{id}
+	</update>
+	
+	<delete id="deleteDeviceProperty">
+		delete from device_property where id=#{id}
+	</delete>
+	
+
+
+
+
+
+</mapper>

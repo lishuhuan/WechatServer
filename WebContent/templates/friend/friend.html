@@ -1,0 +1,54 @@
+<div class="navbar">
+	<div class="navbar-inner">
+		<div class="left">
+			<a href="#" class="back myBack">返回</a>
+		</div>
+		<div class="center sliding">好友列表</div>
+	</div>
+</div>
+<div class="pages">
+	<div data-page="friend" class="page no-navbar" id="friend">
+
+		<form data-search-list=".list-block-search" data-search-in=".item-title" class="searchbar searchbar-init">
+			<div class="searchbar-input">
+				<input type="search" placeholder="搜索">
+				<a href="#" class="searchbar-clear"></a>
+			</div>
+			<a href="#" class="searchbar-cancel">取消</a>
+		</form>
+
+		<div class="searchbar-overlay"></div>
+
+		<div class="page-content">
+			<div class="content-block searchbar-not-found">
+				<div class="content-block-inner">没有找到</div>
+			</div>
+			<div class="list-block list-block-search searchbar-found">
+				<ul>
+					<li class="friend_item">
+						<div class="head_img">
+							<div class="img">
+								<img :src="host.headimgurl"></div>
+						</div>
+						<div class="item-title">{{host.nickName}}<span style="background-color: #FABE00;border-radius: 5px;color: white;font-size: 14px;padding: 3px;">主人</span></div>
+						<div class="button" style="width: 80px;height: 30px;float: right;margin-top: 25px;margin-right: 20px;border: 0px;">
+							<button v-if="!host.isControl" @click="click('host', host, '', true)" style="width: 100%;height: 100%;border: 1px solid #42C8FE;border-radius: 5px;background-color: white;color:#42C8FE;">申请授权</button>
+							<button v-else @click="click('host', host, '', false)" style="width: 100%;height: 100%;border: 1px solid gray;border-radius: 5px;background-color: white;color:gray;">已授权</button>
+						</div>
+					</li>
+					<li class="friend_item" v-for="people in friendList">
+						<div class="head_img">
+							<div class="img">
+								<img :src="people.headimgurl"></div>
+						</div>
+						<div class="item-title" v-text="people.nickName"></div>
+						<div class="button" style="width: 80px;height: 30px;float: right;margin-top: 25px;margin-right: 20px;border: 0px;">
+							<button v-if="!people.isControl" @click="click('people', people, $index, true)" style="width: 100%;height: 100%;border: 1px solid #d5d5d5;border-radius: 5px;background-color: white;color:#d5d5d5;">未授权</button>
+							<button v-else @click="click('people', people, $index, false)" style="width: 100%;height: 100%;border: 1px solid gray;border-radius: 5px;background-color: white;color:gray;">已授权</button>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>

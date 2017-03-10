@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.dao.LedPropertyDao">
+
+	<resultMap type="LedProperty" id="LedPropertyResult">
+		<id column="id" property="id" />
+		<result column="device_id" property="deviceId" />
+		<result column="tag" property="tag" />
+		<result column="model" property="model" />
+		<result column="type" property="type" />
+		<result column="duration" property="duration" />
+		<result column="time" property="time" />
+		<result column="repeat_date" property="repeat_date" />
+		<result column="created_by" property="createdBy" />
+		<result column="created_at" property="createdAt" />
+		<result column="updated_by" property="updatedBy" />
+		<result column="updated_at" property="updatedAt" />
+	</resultMap>
+
+
+	<insert id="setSleepAndGetupLed">
+		INSERT INTO
+		led_property(id,device_id,model,duration,time,created_by,created_at,type,repeat_date,tag)
+		VALUES
+		(#{id},#{deviceId},#{model},#{duration},#{time},#{createdBy},#{createdAt},#{type},#{repeat_date},#{tag})
+	</insert>
+	
+	
+	<select id="getLedProperty" resultMap="LedPropertyResult">
+		SELECT * from led_property
+		where
+		device_id=#{deviceId}
+	</select>
+	
+	<select id="getPropertyById" resultMap="LedPropertyResult">
+		SELECT * from led_property
+		where
+		id=#{id}
+	</select>
+	
+	<select id="getTagByOrder" resultType="java.lang.Integer">
+		select tag from led_property where device_id=#{deviceId} ORDER BY tag
+	</select>
+	
+	
+	<delete id="deleteLedProperty">
+		DELETE FROM led_property  WHERE id=#{id}
+	</delete>
+	
+	<update id="updateLedProperty">
+		update led_property set 
+		model=#{model},type=#{type},duration=#{duration},time=#{time},repeat_date=#{repeat_date}
+		where id=#{id}
+	</update>
+
+</mapper>

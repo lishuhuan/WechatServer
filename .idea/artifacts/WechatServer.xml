@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="WechatServer">
+    <output-path>$PROJECT_DIR$/WebContent</output-path>
+    <root id="root">
+      <element id="dir-copy" path="$PROJECT_DIR$/WebContent/WEB-INF" />
+    </root>
+  </artifact>
+</component>

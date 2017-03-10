@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.dao.DeviceStatusDao">
+
+
+	<resultMap type="DeviceStatus" id="StatusResult">
+		<id column="id" property="id" />
+		<result column="device_id" property="deviceId" />
+		<result column="action_by_user" property="actionByUser" />
+		<result column="time" property="time" />
+	</resultMap>
+
+	<select id="getDeviceStatus" resultMap="StatusResult">
+		SELECT a.*,b.nick_name as
+		username, c.name as deviceName,b.headimgurl as photoPath from
+		device_status a
+		LEFT JOIN `user` b on a.action_by_user=b.open_id
+		LEFT
+		JOIN device c on c.device_id=a.device_id
+		<where>
+			a.device_id=#{deviceId}
+			<if test="type== 0">
+				and (a.action_by_user=#{openId} or a.action_by_user='local')
+			</if>
+			<if test="type== 1">
+				and a.action_by_user!=#{openId} and a.action_by_user!='local'
+			</if>
+		</where>
+
+
+		order by a.time desc
+	</select>
+	
+	<select id="getRecentOperation" resultMap="StatusResult">
+		select * from device_status 
+		where device_id=#{deviceId} and action like CONCAT('%','${action}','%' )
+		ORDER BY time DESC LIMIT 1
+	</select>
+
+
+	<insert id="setDeviceStatus">
+		INSERT INTO
+		device_status(device_id,action_by_user,action,time) VALUES
+		(#{deviceId},#{actionByUser},#{action},#{time})
+	</insert>
+
+
+
+
+</mapper>

@@ -1,0 +1,53 @@
+<div class="navbar">
+	<div class="navbar-inner">
+		<div class="left">
+			<a href="#" class="back myBack">返回</a>
+		</div>
+		<div class="center sliding">设置</div>
+	</div>
+</div>
+<div class="pages">
+	<div data-page="device" class="page no-navbar">
+		<div class="page-content" id="device">
+
+			<div class="changeLight">
+				<div class="left" @click="moveLight()">
+					<img src="ui/home/an.png"></div>
+				<div class="input">
+					<!-- <input type="range" name="leght" min="0" max="10" v-model="input_light" @change="lightChange()"></div> -->
+					<input id="input_light" type="range" name="leght" min="0" max="100" v-model="input_light"></div>
+				<div class="right" @click="moveLight()">
+					<img src="ui/home/ming.png"></div>
+			</div>
+			<div class="temp">
+				<div class="part">湿度: {{temperature}}%</div>
+				<div class="part">温度: {{humidity}}℃</div>
+			</div>
+			<div class="flower">
+				<div class="light">
+					<img :src="light.img"></div>
+				<div class="open" @click="open()">
+					<img :src="light.openImg"></div>
+			</div>
+			<div class="statusBook" @click="toolBarClick('1')">
+				<img src="ui/home/jsb.png"></div>
+			<div class="kettle">
+				<img id="kettle" src="ui/home/sh.png"></div>
+			<div class="contentTable">
+				<img src="ui/home/gz.png"></div>
+			<div class="footTable">
+				<img src="ui/home/zz.png"></div>
+			<div class="toolBar">
+				<div class="part" @click="toolBarClick('0')">
+					<img src="ui/home/sz.png"></div>
+				<div class="part">
+					<img src="ui/home/zy.png"></div>
+				<div class="part" @click="toolBarClick('2')">
+					<img src="ui/home/sb.png"></div>
+				<div class="part" @click="toolBarClick('3')">
+					<img src="ui/home/hy.png"></div>
+			</div>
+
+		</div>
+	</div>
+</div>

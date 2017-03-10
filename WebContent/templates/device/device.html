@@ -1,0 +1,74 @@
+<div class="navbar">
+	<div class="navbar-inner">
+		<div class="left">
+			<a href="#" class="back myBack">返回</a>
+		</div>
+		<div class="center sliding">设置</div>
+	</div>
+</div>
+<div class="pages">
+	<div data-page="device" class="page no-navbar">
+		<div class="page-content" id="device" style="background-image: url({{theme.bg}})";>
+
+			<div class="people">
+				<div class="img">
+					<img :src="userInfo.headImg"></div>
+				<div class="name" v-text="userInfo.nickName"></div>
+				<div class="bg">
+					<div class="fillbg" v-bind:style="userInfo.widthStyle"></div>
+				</div>
+			</div>
+			<div class="sun" @click="collectSun()"  v-if="sun.number > 0">
+				<img class="sunImg" :src="theme.sun">
+				<img src="ui/home/hand.png">
+				<div class="title">X{{sun.number}}</div>
+			</div>
+			<div class="changeLight">
+				<div class="left" @click="moveLight()">
+					<img src="ui/home/an.png"></div>
+				<div class="input">
+					<div class="title" style="position: absolute;width: 150px;height: 20px;color: white;text-align: center;">灯光强度: {{input_light}}</div>
+					<input id="input_light" type="range" name="leght" min="0" max="100" v-model="input_light"></div>
+				<div class="right" @click="moveLight()">
+					<img src="ui/home/ming.png"></div>
+			</div>
+			<div class="temp">
+				<div class="part">湿度: {{humidity}}%</div>
+				<div class="part">温度: {{temperature}}℃</div>
+			</div>
+			<div class="flower">
+				<div class="light">
+					<img :src="theme.light"></div>
+				<div class="open" @click="open()">
+					<img :src="theme.light_openImg"></div>
+			</div>
+			<div class="statusBook" @click="toolBarClick('1')">
+				<img src="ui/home/jsb.png">
+				<div class="count" v-if="count != 0" style="position: absolute;width: 25px;height: 23px;background-color: red;padding-top: 2px;border-radius: 15px;text-align: center;color: white;font-size: 15px;top: 10%;right: 0%;">{{count}}</div>
+			</div>
+			<div class="water">
+				<img src="ui/home/sd.png"></div>
+			<div class="kettle">
+				<img id="kettle" :src="theme.sh" src="ui/home/sh.png"></div>
+			<div class="contentTable">
+				<img :src="theme.gz" src="ui/home/gz.png"></div>
+			<div class="footTable">
+				<img :src="theme.zz" src="ui/home/zz.png"></div>
+			<div class="toolBar">
+				<div class="setting">
+					<div class="part" v-if="isHost == 0" @click="toolBarClick('0')">
+						<img src="ui/home/sz.png"></div>
+				</div>
+				<div class="other">
+					<div class="part other">
+						<img src="ui/home/zy.png"></div>
+					<div class="part other" @click="toolBarClick('2')">
+						<img src="ui/home/sb.png"></div>
+					<div class="part other" @click="toolBarClick('3')">
+						<img src="ui/home/hy.png"></div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>

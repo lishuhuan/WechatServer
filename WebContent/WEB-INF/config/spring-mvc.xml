@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:cache="http://www.springframework.org/schema/cache"
+	xsi:schemaLocation="
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd
+    http://www.springframework.org/schema/mvc
+    http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+    http://www.springframework.org/schema/cache 
+    http://www.springframework.org/schema/cache/spring-cache-3.2.xsd">
+
+	<!-- 扫描文件（自动注入）,包括DAO层注入Service层，Service层注入Controller层 -->
+	<context:component-scan base-package="com.demo" />
+	<mvc:annotation-driven />
+	<!-- 避免IE在ajax请求时，返回json出现下载 -->
+	<bean id="jacksonMessageConverter"
+		class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+		<property name="supportedMediaTypes">
+			<list>
+				<value>text/html;charset=UTF-8</value>
+			</list>
+		</property>
+	</bean>
+
+	<cache:annotation-driven cache-manager="cacheManager" />
+	<!-- <bean class="com.demo.timer.Start" init-method="execute"></bean> -->
+	<!-- <bean class="com.demo.ledenergy.EnergyCollection" init-method="collect"></bean> -->
+	<bean id="cacheManagerFactory"
+		class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+		<property name="configLocation" value="/WEB-INF/config/ehcache.xml" />
+	</bean>
+
+	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+		<property name="cacheManager" ref="cacheManagerFactory" />
+	</bean>
+
+
+	<!-- 对模型视图添加前后缀 -->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+		p:prefix="/WEB-INF/view/" p:suffix=".html" />
+
+
+
+	<bean id="myTimer" class="com.demo.ledenergy.EnergyCollection"></bean>
+	<bean id="myTimer2" class="com.demo.timer.WaterPlan"></bean>
+	<bean id="timeDitail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="myTimer"></property><!-- 指定任务类 -->
+		<property name="targetMethod" value="collect"></property><!-- 指定任务方法 -->
+	</bean>
+	<bean id="timeDitail2"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="myTimer2"></property><!-- 指定任务类 -->
+		<property name="targetMethod" value="start"></property><!-- 指定任务方法 -->
+	</bean>
+	<bean id="timeTigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="timeDitail"></property>
+		<property name="cronExpression">
+			<value>0 0/60 * * * ?</value>
+		</property>
+	</bean>
+	<bean id="timeTigger2" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="timeDitail2"></property>
+		<property name="cronExpression">
+			<value>0 0/5 * * * ?</value>
+		</property>
+	</bean>
+	
+	<bean id="startJob"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="timeTigger" />
+				<ref bean="timeTigger2" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

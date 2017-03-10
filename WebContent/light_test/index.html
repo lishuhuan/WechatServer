@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+	<link rel="stylesheet" href="lib/css/libs.min.css">
+	<link rel="stylesheet" href="lib/css/style.css"></head>
+<body>
+	<div class="launch" style="text-align: center;">
+		正在加载...
+	</div>
+	<div class="views">
+		<div class="view view-main">
+			<div class="navbar">
+				<div class="navbar-inner"></div>
+			</div>
+			<div class="pages">
+				<div data-page="home" class="page no-navbar" id="home">
+					<div class="device-header">
+						<div class="part changeModel" :style="{backgroundColor: device_header.device.background, color: device_header.device.color}" @click="changeMode('0')">我的设备</div>
+						<div class="part changeModel" :style="{backgroundColor: device_header.friend.background, color: device_header.friend.color}" @click="changeMode('1')">好友申请</div>
+					</div>
+					<div class="device-swiper-container">
+						<div class="swiper-wrapper">
+							<div class="swiper-slide">
+								<form class="searchbar searchbar-init" id="searchTest">
+									<div class="searchbar-input">
+										<input type="search" placeholder="搜索">
+										<a href="#" class="searchbar-clear"></a>
+									</div>
+									<a href="#" class="searchbar-cancel">取消</a>
+								</form>
+
+								<div class="searchbar-overlay"></div>
+
+								<div class="page-content">
+									<div class="content-block searchbar-not-found">
+										<div class="content-block-inner">没有找到</div>
+									</div>
+									<div class="list-block" v-show="display.devicesearch">
+										<div class="list-block accordion-list">
+											<ul>
+												<li class="accordion-item" id="device_item">
+													<a href="#" class="item-content item-link">
+														<div class="item-inner">
+															<div class="item-title">我的设备</div>
+														</div>
+													</a>
+													<div class="accordion-item-content">
+														<div class="content-block">
+															<div class="device_item" v-for="item in device_arr"  @click="devicePush($index, item)">
+																<div class="head_img">
+																	<div class="img">
+																		<img :src="item.photo"></div>
+																</div>
+																<div class="part">
+																	<div class="img">
+																		<img src="ui/device_list/yd.png"></div>
+																	<div class="title">{{item.name}}</div>
+																	<span>
+																		<div class="edit" @click="edit(true, item, $index, $event)">
+																			<img src="ui/device_list/xgmc.png"></div>
+																	</span>
+
+																</div>
+																<div class="part">
+																	<div class="img">
+																		<img src="ui/device_list/yd.png"></div>
+																	<div class="text">湿度: 75%       温度: 35℃</div>
+																</div>
+																<div class="operat">
+																	<div class="img share" @click="shareDevice(true, $index, item, $event)">
+																		<img src="ui/device_list/fx.png"></div>
+																	<div class="img delect" @click="delectDevice(true, $index, item, $event)">
+																		<img src="ui/device_list/ljt.png"></div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</li>
+												<li class="accordion-item">
+													<a href="#" class="item-content item-link">
+														<div class="item-inner">
+															<div class="item-title">好友设备</div>
+														</div>
+													</a>
+													<div class="accordion-item-content">
+														<div class="content-block">
+															<div class="device_item" v-for="item in device_arr_friend"  @click="devicePush($index, item)">
+																<div class="head_img">
+																	<div class="img">
+																		<img :src="item.photo"></div>
+																</div>
+																<div class="part">
+																	<div class="img">
+																		<img src="ui/device_list/yd.png"></div>
+																	<div class="title">{{item.name}}</div>
+																	<div class="edit"  @click="edit(false, item, $index, $event)">
+																		<img src="ui/device_list/xgmc.png"></div>
+																</div>
+																<div class="part">
+																	<div class="img">
+																		<img src="ui/device_list/yd.png"></div>
+																	<div class="text">湿度: 65%       温度: 33℃</div>
+																</div>
+																<div class="operat">
+																	<div class="img share" @click="shareDevice(false, $index, item, $event)">
+																		<img src="ui/device_list/fx.png"></div>
+																	<div class="img delect" @click="delectDevice(false, $index, item, $event)">
+																		<img src="ui/device_list/ljt.png"></div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</li>
+											</ul>
+										</div>
+									</div>
+									<div class="list-block list-block-search searchbar-found" v-show="!display.devicesearch">
+										<ul>
+											<li class="item-content" v-for="item in device_arr">
+												<div class="device_item"  @click="devicePush($index, item)">
+													<div class="head_img">
+														<div class="img">
+															<img :src="item.photo"></div>
+													</div>
+													<div class="part">
+														<div class="img">
+															<img src="ui/device_list/yd.png"></div>
+														<div class="title">{{item.name}}</div>
+														<span>
+															<div class="edit" @click="edit(true, item, $index, $event)">
+																<img src="ui/device_list/xgmc.png"></div>
+														</span>
+
+													</div>
+													<div class="part">
+														<div class="img">
+															<img src="ui/device_list/yd.png"></div>
+														<div class="text">湿度: 75%       温度: 35℃</div>
+													</div>
+													<div class="operat">
+														<div class="img" @click="shareDevice(true, $index, item, $event)">
+															<img src="ui/device_list/fx.png"></div>
+														<div class="img" @click="delectDevice(true, $index, item, $event)">
+															<img src="ui/device_list/ljt.png"></div>
+													</div>
+												</div>
+											</li>
+											<li class="item-content" v-for="item in device_arr_friend">
+												<div class="device_item"  @click="devicePush($index, item)">
+													<div class="head_img">
+														<div class="img">
+															<img :src="item.photo"></div>
+													</div>
+													<div class="part">
+														<div class="img">
+															<img src="ui/device_list/yd.png"></div>
+														<div class="title">{{item.name}}</div>
+														<div class="edit"  @click="edit(false, item, $index, $event)">
+															<img src="ui/device_list/xgmc.png"></div>
+													</div>
+													<div class="part">
+														<div class="img">
+															<img src="ui/device_list/yd.png"></div>
+														<div class="text">湿度: 65%       温度: 33℃</div>
+													</div>
+													<div class="operat">
+														<div class="img share" @click="shareDevice(false, $index, item, $event)">
+															<img src="ui/device_list/fx.png"></div>
+														<div class="img delect" @click="delectDevice(false, $index, item, $event)">
+															<img src="ui/device_list/ljt.png"></div>
+													</div>
+												</div>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+							<div class="swiper-slide light">
+								<form data-search-list=".list-block-search" data-search-in=".item-title" class="searchbar searchbar-init">
+									<div class="searchbar-input">
+										<input type="search" placeholder="搜索">
+										<a href="#" class="searchbar-clear"></a>
+									</div>
+									<a href="#" class="searchbar-cancel">取消</a>
+								</form>
+
+								<div class="searchbar-overlay"></div>
+
+								<div class="page-content">
+									<div class="content-block searchbar-not-found">
+										<div class="content-block-inner">没有找到</div>
+									</div>
+									<div class="list-block list-block-search searchbar-found">
+										<div class="list-block accordion-list">
+											<div class="friend_item" v-for="item in userList">
+												<div class="head_img">
+													<div class="img">
+														<img src="ui/device_list/yd.png"></div>
+												</div>
+												<div class="part">
+													<div class="img">
+														<img src="ui/device_list/yd.png"></div>
+													<div class="title">{{item.applyPersonName}}</div>
+												</div>
+												<div class="part">
+													<div class="img">
+														<img src="ui/device_list/yd.png"></div>
+													<div class="text">{{item.deviceId}}</div>
+												</div>
+												<div class="operat">
+													<div class="text">
+														<p v-if="item.result == 1">已授权</p>
+														<p v-if="item.result == 2">已拒绝</p>
+														<button v-else @click="getPermissions(item)">授权</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="selectRepeatTime" v-show="display.customTime" @click="closeQr($event)">
+						<div class="right">
+							<img src="ui/home/share.png"></div>
+						<div class="qr">
+							<img :src="display.qrUrl"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="lib/js/vue.js"></script>
+	<script type="text/javascript">
+		var _code = getCode();
+		var _openId = undefined;
+		function getOpenId() {
+			if (_openId != undefined) {
+				return _openId;
+			} else {
+				_openId = ajaxSync('/WechatServer/user/getOpenIdByCode', {
+					code: {
+						code: _code.code
+					}
+				}, 'POST');
+				return _openId;
+			}
+		}
+		function getCode() {
+			var url = location.search;
+			var theRequest = new Object();
+			if (url.indexOf("?") != -1) {
+				var str = url.substr(1);
+				strs = str.split("&");
+				for (var i = 0; i < strs.length; i++) {
+					theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+				}
+			}
+			return theRequest;
+		};
+		var vue = new Vue({
+			el: '#home',
+			data: {
+				display: {
+					devicesearch: true,
+					customTime: false,
+					qrUrl: ""
+				},
+				device_header: {
+					device: {
+						background: "#7AC8D5",
+						color: "white"
+					},
+					friend: {
+						background: "white",
+						color: "balck"
+					}
+				},
+				device_arr: [],
+				device_arr_friend: [],
+				userList: [],
+				select: {
+					edit: {
+						bool: false,
+						item: "",
+						index: "",
+						e: ""
+					},
+					share: {
+						bool: false,
+						index: "",
+						item: "",
+						e: ""
+					},
+					device: {
+						item: "",
+					},
+					delect: {
+						bool: false,
+						index: "",
+						item: "",
+						e: ""
+					},
+					changeModel: {
+						key: "",
+					},
+					close: {
+						e: ""
+					}
+				}
+			},
+			methods: {
+				edit: function(bool, item, index, e) {
+					vue.select.edit.bool = bool;
+					vue.select.edit.item = item;
+					vue.select.edit.index = index;
+					vue.select.edit.e = e;
+					stopBubble(e);
+				},
+				shareDevice: function(bool, index, item, e) {
+					vue.select.share.bool = bool;
+					vue.select.share.item = item;
+					vue.select.share.index = index;
+					vue.select.share.e = e;
+					stopBubble(e);
+				},
+				devicePush: function(index, item) {
+					vue.select.device.item = item;
+				},
+				delectDevice: function(bool, index, item, e) {
+					vue.select.delect.bool = bool;
+					vue.select.delect.item = item;
+					vue.select.delect.index = index;
+					vue.select.delect.e = e;
+					stopBubble(e);
+				},
+				changeMode: function(key) {
+					vue.select.changeModel.key = key;
+				},
+				closeQr: function(e) {
+					vue.select.close.e = e;
+					stopBubble(e);
+				}
+			}
+		});
+		function stopBubble(e) {
+			if (e && e.stopPropagation) {
+				e.stopPropagation();
+			} else {
+				window.event.cancelBubble = true;
+			}
+		};
+		ajax('/WechatServer/user/getDeviceByUser', {
+			openId: _openId
+		}, 'POST', function(data) {
+			vue.device_arr = data;
+			ajax('/WechatServer/relation/getDeviceListByFriends', {
+				openId: _openId
+			}, 'POST', function(data) {
+				vue.device_arr_friend = data;
+			})
+		});
+		function ajax(url, body, method, cb) {
+			var xmlhttp;
+			if (window.XMLHttpRequest) {
+				xmlhttp = new XMLHttpRequest();
+			} else {
+				xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+			};
+			xmlhttp.open(method, "http://www.shuaikang.iego.cn" + url, true);
+			if (method == "POST") {
+				xmlhttp.setRequestHeader("Content-type", "application/json");
+			}
+			xmlhttp.onreadystatechange = function() {
+				if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+					console.log(xmlhttp.responseText);
+					cb(JSON.parse(xmlhttp.responseText));
+				}
+			}
+			console.log("body:------:" + JSON.stringify(body));
+			xmlhttp.send(JSON.stringify(body));
+		};
+		function ajaxSync(url, body, method) {
+			var xmlhttp;
+			if (window.XMLHttpRequest) {
+				xmlhttp = new XMLHttpRequest();
+			} else {
+				xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+			};
+			xmlhttp.open(method, "http://www.shuaikang.iego.cn" + url, false);
+			if (method == "POST") {
+				xmlhttp.setRequestHeader("Content-type", "application/json");
+			}
+			xmlhttp.send(JSON.stringify(body));
+			if (xmlhttp.readyState == 4) {
+				if (xmlhttp.status == 200) {
+					var data = JSON.parse(xmlhttp.responseText);
+					return data.openid;
+				} else {
+					return undefined;
+				}
+			}
+		};
+		setTimeout(function(data){
+			loadFile();
+		}, 300);
+		function loadFile() {
+			var fileref = document.createElement('script')
+			fileref.setAttribute("type", "text/javascript")
+			fileref.setAttribute("src", "lib/js/libs.min.js")
+			fileref.setAttribute("data-main", "lib/js/main")
+			document.getElementsByTagName("head")[0].appendChild(fileref);
+		};
+	</script>
+	
+
+</body>
+</body>
+</html>

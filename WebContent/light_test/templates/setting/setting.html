@@ -1,0 +1,131 @@
+<div class="navbar">
+	<div class="navbar-inner">
+		<div class="left">
+			<a href="#" class="back myBack">返回</a>
+		</div>
+		<div class="center sliding">设置</div>
+	</div>
+</div>
+<div class="pages">
+	<div data-page="setting" class="page no-navbar" id="setting">
+
+		<div class="setting-header">
+			<div class="part" :style="{backgroundColor: setting_header.water.background, color: setting_header.water.color}" @click="changeMode('0')">浇水</div>
+			<div class="part" :style="{backgroundColor: setting_header.light.background, color: setting_header.light.color}" @click="changeMode('1')">灯光</div>
+		</div>
+		<div class="setting-swiper-container">
+			<div class="swiper-wrapper">
+				<div class="swiper-slide watch">
+					<div class="info">添加浇水时间段</div>
+					<div class="item" v-for="item in waterTimeList">
+						<div class="text" v-text="item.time"></div>
+						<div class="edit" @click="waterTimeEdit(item)">
+							<img src="ui/device_setting/xgmc.png"></div>
+					</div>
+					<div class="item" style="background-color: #F5F4F7; border: 0px;">
+						<div class="add" @click="addWaterTime('add')">
+							<img src="ui/device_setting/tj.png"></div>
+					</div>
+				</div>
+				<div class="swiper-slide light"></div>
+			</div>
+		</div>
+
+		<div class="bg_addTime" v-show="display.addTime">
+			<div class="addtime">
+				<div class="header">添加时间</div>
+				<div class="input">
+					<div class="part">
+						<input id="input1" v-model="time1"></div>
+					<div class="part">
+						<input id="input2" v-model="time2"></div>
+					<div class="part">:</div>
+					<div class="part">
+						<input id="input3" v-model="time3"></div>
+					<div class="part">
+						<input id="input4" v-model="time4"></div>
+				</div>
+				<!-- <div class="item" @click="selectRepeatTime('open')"> -->
+				<div class="item" @click="repeatAlertClick('button5')">
+				
+					<div class="title">重复</div>
+					<div class="subtitle" v-text="display.repeatContent"></div>
+					<div class="img">
+						<img src="ui/device_setting/dk.png"></div>
+				</div>
+				<div class="foot">
+					<button class="button" @click="addWaterTime('close')">取消</button>
+					<button class="button" @click="addWaterTime('ok')">确定</button>
+				</div>
+			</div>
+		</div>
+
+		<div class="selectRepeatTime" v-show="display.repeatTime">
+			<div class="alertBg">
+				<div class="repeatAlert">
+					<div class="title">重复</div>
+					<div class="item" @click="repeatAlertClick('button1')">
+						<div class="title" :style="{color: repeatTime.button1.color}">仅一次</div>
+						<div class="img">
+							<img :src="repeatTime.button1.img"></div>
+					</div>
+					<div class="item" @click="repeatAlertClick('button2')">
+						<div class="title" :style="{color: repeatTime.button2.color}">周一至周五</div>
+						<div class="img">
+							<img :src="repeatTime.button2.img"></div>
+					</div>
+					<div class="item" @click="repeatAlertClick('button3')">
+						<div class="title" :style="{color: repeatTime.button3.color}">每天</div>
+						<div class="img">
+							<img :src="repeatTime.button3.img"></div>
+					</div>
+					<div class="item" @click="repeatAlertClick('button4')">
+						<div class="title" :style="{color: repeatTime.button4.color}">法定工作日</div>
+						<div class="img">
+							<img :src="repeatTime.button4.img"></div>
+					</div>
+					<div class="item" @click="repeatAlertClick('button5')">
+						<div class="title" :style="{color: repeatTime.button5.color}">自定义</div>
+						<div class="img">
+							<img :src="repeatTime.button5.img"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="selectRepeatTime" v-show="display.customTime">
+			<div class="alertBg">
+				<div class="customAlert">
+					<div class="title">自定义</div>
+					<div class="allDay">
+						<div class="part">
+							<div class="text" :style="{color: selectCustomTime.one.color ,backgroundColor: selectCustomTime.one.backgroundColor, borderColor: selectCustomTime.one.borderColor}" @click="dayTime('one')">一</div>
+						</div>
+						<div class="part">
+							<div class="text" :style="{color: selectCustomTime.two.color ,backgroundColor: selectCustomTime.two.backgroundColor, borderColor: selectCustomTime.two.borderColor}" @click="dayTime('two')">二</div>
+						</div>
+						<div class="part">
+							<div class="text" :style="{color: selectCustomTime.three.color ,backgroundColor: selectCustomTime.three.backgroundColor, borderColor: selectCustomTime.three.borderColor}" @click="dayTime('three')">三</div>
+						</div>
+						<div class="part">
+							<div class="text" :style="{color: selectCustomTime.four.color ,backgroundColor: selectCustomTime.four.backgroundColor, borderColor: selectCustomTime.four.borderColor}" @click="dayTime('four')">四</div>
+						</div>
+						<div class="part">
+							<div class="text" :style="{color: selectCustomTime.five.color ,backgroundColor: selectCustomTime.five.backgroundColor, borderColor: selectCustomTime.five.borderColor}" @click="dayTime('five')">五</div>
+						</div>
+						<div class="part">
+							<div class="text" :style="{color: selectCustomTime.six.color ,backgroundColor: selectCustomTime.six.backgroundColor, borderColor: selectCustomTime.six.borderColor}" @click="dayTime('six')">六</div>
+						</div>
+						<div class="part">
+							<div class="text" :style="{color: selectCustomTime.seven.color ,backgroundColor: selectCustomTime.seven.backgroundColor, borderColor: selectCustomTime.seven.borderColor}" @click="dayTime('seven')">日</div>
+						</div>
+					</div>
+					<div class="footButton">
+						<button class="button" @click="customTimeClick('no')">取消</button>
+						<button class="button" @click="customTimeClick('yes')">确定</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>

@@ -1,0 +1,9 @@
+eclipse.preferences.version=1
+encoding//WebContent/WEB-INF/config/log4j.properties=UTF-8
+encoding//src/com/demo/redis/RedisAPI.java=UTF-8
+encoding//src/com/demo/service/impl/DeviceCommandServiceImpl.java=UTF-8
+encoding//src/com/demo/util/AnnotatedStrategy.java=UTF-8
+encoding//src/com/demo/util/JsonPolicyDef.java=UTF-8
+encoding//src/com/demo/websocket/SocketServer.java=UTF-8
+encoding//src/com/demo/websocket/WebsocketEndPoint.java=UTF-8
+encoding/<project>=UTF-8

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.dao.ApplyControlDao">
+
+	<resultMap type="ApplyControl" id="ApplyResult">
+		<id column="id" property="id" />
+		<result column="device_id" property="deviceId" />
+		<result column="apply_person_id" property="applyPersonId" />
+		<result column="result" property="result" />
+		<result column="time" property="time" />
+	</resultMap>
+
+	<select id="getApplyControlByDevice" resultMap="ApplyResult">
+		SELECT
+		a.*,b.nick_name as applyPersonName from apply_control a left join user
+		b on a.apply_person_id=b.open_id
+		where
+		device_id=#{deviceId}
+	</select>
+
+	<select id="getApplyControlByUser" resultMap="ApplyResult">
+		SELECT
+		a.*,b.nick_name as applyPersonName,d.name as deviceName from
+		apply_control a
+		LEFT JOIN relation c on c.device_id=a.device_id
+		left join user b on a.apply_person_id=b.open_id
+		LEFT JOIN device d on a.device_id=d.device_id
+		where c.open_id=#{openId} and c.host=0
+	</select>
+
+
+	<insert id="insertApplyControl">
+		INSERT INTO
+		apply_control(device_id,apply_person_id,time)
+		VALUES
+		(#{deviceId},#{applyPersonId},#{time})
+	</insert>
+
+
+	<update id="updateApplyControl">
+		update apply_control set
+		result=#{result}
+		where apply_person_id=#{applyPersonId} and device_id=#{deviceId}
+	</update>
+
+
+
+
+</mapper>
