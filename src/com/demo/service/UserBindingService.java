@@ -23,4 +23,6 @@ public interface UserBindingService {
 	
 	void updateUser(JSONObject jsonObject);
 
+	Device getDeviceByVirtualId(String string);
+
 }

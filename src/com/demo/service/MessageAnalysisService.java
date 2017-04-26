@@ -10,6 +10,5 @@ public interface MessageAnalysisService {
 	
 	void deviceBind(JSONObject jsonObject);
 	
-	void getMessageByNotify(JSONObject jsonObject);
 
 }

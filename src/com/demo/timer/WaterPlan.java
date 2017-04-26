@@ -5,9 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeansException;
@@ -16,16 +13,14 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
 import com.demo.accessToken.GetAccessToken;
-import com.demo.device.FutureMap;
-import com.demo.device.SyncFuture;
 import com.demo.model.DeviceProperty;
 import com.demo.model.Relation;
-import com.demo.model.ResponseData;
+import com.demo.onenet.PostData;
 import com.demo.redis.RedisAPI;
 import com.demo.redis.RedisOperation;
 import com.demo.service.DevicePropertyService;
+import com.demo.service.impl.DeviceCommandServiceImpl;
 import com.demo.util.DataProtocol;
-import com.demo.util.HttpClient;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -112,17 +107,11 @@ public class WaterPlan implements ApplicationContextAware{
 	public void excuteWatering(String token,String deviceId){
 		String userid=WheelTime.getRelation(deviceId);
 		
-		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("device_type", "gh_3f4fcd63df5d");
-		jsonObject.put("device_id", deviceId);
-		jsonObject.put("service", "");
-		jsonObject.put("user", userid);
-		jsonObject.put("data", "01010005");
-		JSONObject response = HttpClient.doPost(
-				"https://api.weixin.qq.com/hardware/mydevice/platform/ctrl_device?access_token=" + token, jsonObject);
-		if (response.get("error_code").equals(0)) {
-			JSONObject result = getJsonResult(response.getString("msg_id") + "_Set");
-			if (result.get("asyErrorCode").equals("0")) {		
+		JSONObject response=PostData.Post(deviceId, "01010005");
+		int resultCode=response.getInt("errno");
+		if (resultCode==0) {
+			String result = DeviceCommandServiceImpl.getJsonResult(deviceId + "_command");
+			if ("00".equals(result)) {			
 				List<Relation> list=WheelTime.waterLog(deviceId, "10000", "watering-5");
 				RedisOperation.setControlRecordToRedis(deviceId, "water",list);
 				logger.info("water:"+userid);
@@ -130,19 +119,4 @@ public class WaterPlan implements ApplicationContextAware{
 		}
 	}
 	
-	public JSONObject getJsonResult(String key) {
-		SyncFuture<Object> future = new SyncFuture<>();
-		FutureMap.addFuture(key, future);
-		try {
-			ResponseData getobj = (ResponseData) future.get(6, TimeUnit.SECONDS);
-			JSONObject jsonObject = JSONObject.fromObject(getobj);
-			FutureMap.removeFutureMap(key);
-			return jsonObject;
-		} catch (InterruptedException | ExecutionException | TimeoutException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-			return null;
-		}
-
-	}
 }

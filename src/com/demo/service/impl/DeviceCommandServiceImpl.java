@@ -9,7 +9,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,18 +23,16 @@ import com.demo.model.Device;
 import com.demo.model.DeviceProperty;
 import com.demo.model.DeviceStatus;
 import com.demo.model.Relation;
-import com.demo.model.ResponseData;
+import com.demo.onenet.PostData;
 import com.demo.redis.RedisAPI;
 import com.demo.redis.RedisOperation;
 import com.demo.service.DeviceCommandService;
-import com.demo.util.HttpClient;
 
 import net.sf.json.JSONObject;
 
 @Service("DeviceCommandService")
 public class DeviceCommandServiceImpl implements DeviceCommandService {
 
-	private static Logger logger = Logger.getLogger(DeviceCommandServiceImpl.class);
 
 	@Autowired
 	private DeviceStatusDao deviceStatusDao;
@@ -54,25 +51,12 @@ public class DeviceCommandServiceImpl implements DeviceCommandService {
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("device_type", "gh_3f4fcd63df5d");
 		jsonObject.put("device_id", deviceId);
-		/*
-		 * Map<String, String> map=new HashMap<>(); map.put("power_switch",
-		 * "true");
-		 */
 		jsonObject.put("service", "");
 		jsonObject.put("user", userid);
 		String data = new String("swift,watering,sunshine,feed");
 		jsonObject.put("data", data);
 		JSONObject result = new JSONObject();
 
-		JSONObject response = HttpClient.doPost(
-				"https://api.weixin.qq.com/hardware/mydevice/platform/get_device_status?access_token=" + token,
-				jsonObject);
-		if (response.get("error_code").equals(0)) {
-			// 锟接伙拷锟斤拷锟叫讹拷取锟斤拷锟�
-			result = getJsonResult(response.getString("msg_id") + "_Get");
-		} else {
-			result = response;
-		}
 
 		return result;
 
@@ -82,9 +66,6 @@ public class DeviceCommandServiceImpl implements DeviceCommandService {
 	@Transactional
 	public JSONObject setDevice(String token, String deviceId, String userid, String data, String jsonInfo,
 			String tag) {
-/*		String pp=jsonInfo.substring(jsonInfo.indexOf("-")+1);
-		addPower(pp,deviceId);*/
-		// insertDeviceStatus(deviceId, userid, jsonInfo);
 		JSONObject validate = null;
 		try {
 			validate = validateAuth(userid, deviceId, tag);
@@ -103,21 +84,12 @@ public class DeviceCommandServiceImpl implements DeviceCommandService {
 			data=data+String.format("%4s", Integer.toHexString(co)).replace(' ', '0');
 		}
 		
-		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("device_type", "gh_3f4fcd63df5d");
-		jsonObject.put("device_id", deviceId);
-		jsonObject.put("service", "");
-		jsonObject.put("user", userid);
-
-		jsonObject.put("data", data);
-		JSONObject result = new JSONObject();
-		JSONObject response = HttpClient.doPost(
-				"https://api.weixin.qq.com/hardware/mydevice/platform/ctrl_device?access_token=" + token, jsonObject);
-		System.out.println(response);
-		if (response.get("error_code").equals(0)) {
-			result = getJsonResult(response.getString("msg_id") + "_Set");
-			if (result.get("asyErrorCode").equals("0")) {
-				logger.info(data);
+		JSONObject fJ=new JSONObject();
+		JSONObject response=PostData.Post(deviceId, data);
+		int resultCode=response.getInt("errno");
+		if (resultCode==0) {
+			String result = getJsonResult(deviceId + "_command");
+			if ("00".equals(result)) {
 				insertDeviceStatus(deviceId, userid, jsonInfo);	
 				List<Relation> list=relationDao.getFriendRelationByDevice(deviceId,userid);
 				RedisOperation.setControlRecordToRedis(deviceId, tag,list);
@@ -125,12 +97,21 @@ public class DeviceCommandServiceImpl implements DeviceCommandService {
 					String power=jsonInfo.substring(jsonInfo.indexOf("-")+1);
 					addPower(power,deviceId);
 				}
+				fJ.put("asyErrorCode", 0);
+				fJ.put("data", "ok");
+				return fJ;
+			}
+			else{
+				fJ.put("asyErrorCode", 4);
+				fJ.put("data", "device response error");
+				return fJ;
 			}
 		} else {
-			result = response;
+			fJ.put("asyErrorCode", 3);
+			fJ.put("data", "device is not online");
+			return fJ;
 		}
 
-		return result;
 	}
 
 	private void addPower(String power, String deviceId) {
@@ -220,14 +201,13 @@ public class DeviceCommandServiceImpl implements DeviceCommandService {
 
 	}
 
-	public JSONObject getJsonResult(String key) {
+	public static String getJsonResult(String key) {
 		SyncFuture<Object> future = new SyncFuture<>();
 		FutureMap.addFuture(key, future);
 		try {
-			ResponseData getobj = (ResponseData) future.get(6, TimeUnit.SECONDS);
-			JSONObject jsonObject = JSONObject.fromObject(getobj);
+			String result = (String) future.get(6, TimeUnit.SECONDS);
 			FutureMap.removeFutureMap(key);
-			return jsonObject;
+			return result;
 		} catch (InterruptedException | ExecutionException | TimeoutException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

@@ -57,6 +57,13 @@ public class DeviceCommandController {
 	@ResponseBody
 	public JSONObject setDevice(@RequestBody String json, HttpServletRequest request) throws ParseException {
 		String deviceId = (String) JsonUtil.jsonTranslate(json, "deviceId");
+		if("10000".equals(deviceId)){
+			JSONObject jsonObject=new JSONObject();
+			jsonObject.put("asyErrorCode", 0);
+			jsonObject.put("data", "ok");
+			return jsonObject;
+		}
+			
 		String userid = (String) JsonUtil.jsonTranslate(json, "openId");
 		String data = (String) JsonUtil.jsonTranslate(json, "action");
 		String tag=null;
@@ -89,7 +96,6 @@ public class DeviceCommandController {
 			token=(String) ehCache.getCacheElement("access_token");
 		}*/
 		logger.info("data:"+data);
-		System.out.println("data"+data);
 
 		JSONObject jsonObject = deviceCommandService.setDevice(token, deviceId, userid, data,(String) JsonUtil.jsonTranslate(json, "action"),tag);
 		return jsonObject;
@@ -112,6 +118,9 @@ public class DeviceCommandController {
 	@ResponseBody
 	public Boolean updateDeviceName(@RequestBody String json, HttpServletRequest request){
 		String deviceId = (String) JsonUtil.jsonTranslate(json, "deviceId");
+		if("10000".equals(deviceId)){
+			return true;
+		}
 		String name = (String) JsonUtil.jsonTranslate(json, "name");
 		boolean state=deviceCommandService.updateDeviceName(deviceId,name);
 		return state;

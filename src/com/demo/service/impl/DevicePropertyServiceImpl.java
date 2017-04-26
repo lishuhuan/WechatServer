@@ -13,8 +13,8 @@ import org.springframework.stereotype.Service;
 import com.demo.dao.DevicePropertyDao;
 import com.demo.dao.RelationDao;
 import com.demo.model.DeviceProperty;
+import com.demo.onenet.PostData;
 import com.demo.service.DevicePropertyService;
-import com.demo.util.DataProtocol;
 
 @Service("DevicePropertyService")
 public class DevicePropertyServiceImpl implements DevicePropertyService {
@@ -97,7 +97,7 @@ public class DevicePropertyServiceImpl implements DevicePropertyService {
 				+ String.format("%2s", Integer.toHexString(minute)).replace(' ', '0')
 				+ String.format("%2s", Integer.toHexString(second)).replace(' ', '0')
 				+ String.format("%4s", Integer.toHexString(delay)).replace(' ', '0');
-		DataProtocol.sendDataToDevice(deviceId, openId, data, "waterPlan");
+		PostData.Post(deviceId, data);
 	}
 
 	@Override
@@ -178,8 +178,7 @@ public class DevicePropertyServiceImpl implements DevicePropertyService {
 		// TODO Auto-generated method stub
 		DeviceProperty deviceProperty=devicePropertyDao.getdevicePropertyById(id);
 		String data="A401"+String.format("%2s", Integer.toHexString(deviceProperty.getTag())).replace(' ', '0');
-		String openId=relationDao.getOpenIdByDeviceHost(deviceProperty.getDeviceId());
-		DataProtocol.sendDataToDevice(deviceProperty.getDeviceId(), openId, data, "deleteDeviceProperty");
+		PostData.Post(deviceProperty.getDeviceId(), data);
 		devicePropertyDao.deleteDeviceProperty(id);
 		return true;
 	}

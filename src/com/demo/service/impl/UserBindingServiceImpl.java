@@ -86,6 +86,12 @@ public class UserBindingServiceImpl implements UserBindingService {
 		}
 		
 	}
+
+	@Override
+	public Device getDeviceByVirtualId(String id) {
+		// TODO Auto-generated method stub
+		return deviceDao.getDeviceById(id);
+	}
 	
 
 }

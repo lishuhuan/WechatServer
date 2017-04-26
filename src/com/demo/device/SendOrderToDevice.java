@@ -5,13 +5,7 @@ import java.io.FileInputStream;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 
-import org.apache.log4j.Logger;
-
-import com.demo.accessToken.GetAccessToken;
-import com.demo.util.DataProtocol;
-import com.demo.util.HttpClient;
-
-import net.sf.json.JSONObject;
+import com.demo.onenet.PostData;
 
 public class SendOrderToDevice {
 
@@ -21,9 +15,8 @@ public class SendOrderToDevice {
 	
 	private static final int port = 6969;
 
-	private static final Logger logger = Logger.getLogger(SendOrderToDevice.class);
 
-	public static void sendUpgradeToDevice(String deviceId, String userid, String version) {
+	public static void sendUpgradeToDevice(String deviceId, String version) {
 		String ipAndPort = ipConvertToString(IP, port);
 		String path = FILE_ROOT + "upgrade_" + version + ".zip";
 		File file = new File(path);
@@ -31,7 +24,7 @@ public class SendOrderToDevice {
 		String md5=getFileMD5(file);
 		String data = "921B00" + ipAndPort
 				+String.format("%8s", Long.toHexString(size)).replace(' ', '0')+md5;
-		DataProtocol.sendDataToDevice(deviceId, userid, data, "Upgrade");
+		PostData.Post(deviceId, data);
 	}
 
 	public static String ipConvertToString(String ip, int port) {

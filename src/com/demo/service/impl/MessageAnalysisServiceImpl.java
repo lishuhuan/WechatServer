@@ -21,17 +21,12 @@ import com.demo.dao.DeviceVersionDao;
 import com.demo.dao.LedPropertyDao;
 import com.demo.dao.RelationDao;
 import com.demo.dao.UserBindingDao;
-import com.demo.device.GetOrderByDevice;
-import com.demo.device.SendOrderToDevice;
 import com.demo.model.Device;
-import com.demo.model.DeviceProperty;
 import com.demo.model.DeviceStatus;
-import com.demo.model.LedProperty;
 import com.demo.model.Relation;
 import com.demo.model.ResponseData;
 import com.demo.model.User;
 import com.demo.redis.RedisAPI;
-import com.demo.redis.RedisOperation;
 import com.demo.service.MessageAnalysisService;
 import com.demo.util.DataProtocol;
 import com.demo.util.GetToken;
@@ -213,7 +208,7 @@ public class MessageAnalysisServiceImpl implements MessageAnalysisService {
 		DataProtocol.sendNewsToWechat(openId, articles, token, "qrcode time-out");
 	}
 
-	@Override
+/*	@Override
 	public void getMessageByNotify(JSONObject jsonObject) {
 		// TODO Auto-generated method stub
 		String device_id = (String) jsonObject.get("device_id");
@@ -296,7 +291,7 @@ public class MessageAnalysisServiceImpl implements MessageAnalysisService {
 			DataProtocol.sendDataToDevice(device_id, openId, response, "deviceSendSunModel");
 		}
 
-	}
+	}*/
 
 	private String timeCalibration() {
 		Calendar a = Calendar.getInstance();

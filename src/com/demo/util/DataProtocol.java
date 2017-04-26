@@ -4,25 +4,12 @@ import org.apache.log4j.Logger;
 
 import com.demo.accessToken.GetAccessToken;
 
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 public class DataProtocol {
 
 	private static Logger logger = Logger.getLogger(DataProtocol.class);
 	
-	public static void sendDataToDevice(String device_id,String openId,String data,String log){
-		JSONObject param = new JSONObject();
-		param.put("device_type", "gh_3f4fcd63df5d");
-		param.put("device_id", device_id);
-		param.put("service", "");
-		param.put("user", openId);
-		param.put("data", data);
-		String token = GetAccessToken.getAccessToken();
-		JSONObject result = HttpClient.doPost(
-				"https://api.weixin.qq.com/hardware/mydevice/platform/ctrl_device?access_token=" + token, param);
-		logger.info(log+":"+result);
-	}
 	
 	public static void sendTextToWechat(String openId,String content,String log){
 		JSONObject param=new JSONObject();

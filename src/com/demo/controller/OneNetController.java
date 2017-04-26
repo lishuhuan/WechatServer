@@ -9,10 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.demo.service.OneNetService;
 import com.demo.util.Util;
 
 import net.sf.json.JSONObject;
@@ -20,6 +22,9 @@ import net.sf.json.JSONObject;
 @Controller
 @RequestMapping(value = "/onenet")
 public class OneNetController {
+	
+	@Autowired
+	private OneNetService oneNetService;
 	
 	private static String token="onenet1208";
 	
@@ -55,16 +60,23 @@ public class OneNetController {
 		request.setCharacterEncoding("UTF-8");
 		StringBuffer json = new StringBuffer();
 		String line = null;
+		BufferedReader reader =null;
 		try {
-			BufferedReader reader = request.getReader();
+			reader = request.getReader();
 			while ((line = reader.readLine()) != null) {
 				json.append(line);
-			}
+			}		
+			JSONObject jsonObject = JSONObject.fromObject(json.toString());
+			logger.info(jsonObject);
+			oneNetService.processJson(jsonObject);
 		} catch (Exception e) {
-			System.out.println(e.toString());
+			logger.info(e.toString());
 		}
-		JSONObject jsonObject = JSONObject.fromObject(json.toString());
-		logger.info(jsonObject);
+		finally {
+			if(reader!=null){
+				reader.close();
+			}
+		}
 		
 		
 	}

@@ -1,0 +1,79 @@
+<div class="navbar">
+	<div class="navbar-inner">
+		<div class="left">
+			<a href="#" class="back myBack"><img src="ui/home/back.png"></a>
+		</div>
+		<div class="center sliding">设备</div>
+	</div>
+</div>
+<div class="pages">
+	<div data-page="deviceInfo" class="page no-navbar">
+		<div class="page-content device_page " style="background: url('ui/home/bj.png') no-repeat;background-size: 100% 100%;">
+
+			<div class="people">
+				<div class="img">
+					<img class="device_userhead"></div>
+				<div class="name device_username"></div>
+				<div class="bg">
+					<div class="fillbg"></div>
+				</div>
+			</div>
+			<div class="sun">
+				<img class="sunImg" src="ui/home/yg.png">
+				<img src="ui/home/hand.png">
+				<div class="title device_sunnumber"></div>
+			</div>
+			<div class="changeLight">
+				<div class="left changeLightBtn">
+					<img src="ui/home/an.png"></div>
+				<div class="input">
+					<div class="title input_light" style="position: absolute;width: 150px;height: 20px;color: white;text-align: center;"></div>
+					<input id="input_light" type="range" name="leght" min="0" max="100"></div>
+				<div class="right changeLightBtn">
+					<img src="ui/home/ming.png"></div>
+			</div>
+			<div class="temp">
+				<div class="part device_humidity"></div>
+				<div class="part device_temperature"></div>
+			</div>
+			<div class="flower">
+				<div class="light">
+					<img class="lightImg" src="ui/home/gd.png"></div>
+				<div class="open device_open" @click="open()">
+					<img class="lightBtn" src="ui/home/g.png"></div>
+				<div class="watering">
+					<img id="smallkettle" src="ui/home/sh.png">
+					<img src="ui/home/s.png">
+				</div>
+			</div>
+			<div class="statusBook toolbarBtn" key="3">
+				<img src="ui/home/jsb.png">
+				<div class="count" style="position: absolute;width: 25px;height: 23px;background-color: red;padding-top: 2px;border-radius: 15px;text-align: center;color: white;font-size: 15px;top: 10%;right: 0%;"></div>
+			</div>
+			<div class="water">
+				<img src="ui/home/sd.png"></div>
+			<div class="kettle">
+				<img id="kettle" src="ui/home/sh.png"></div>
+			<div class="contentTable">
+				<img id="contentTable" src="ui/home/gz.png"></div>
+			<div class="footTable">
+				<img id="footTable" src="ui/home/zz.png"></div>
+			<div class="toolBar">
+				<div class="setting">
+					<div class="part toolbarBtn" key="0">
+						<img src="ui/home/sz.png"></div>
+				</div>
+				<div class="other">
+					<div class="part other toolbarBtn">
+						<!--<img src="ui/home/zy.png">-->
+					</div>
+					<div class="part other toolbarBtn" key="1">
+						<img src="ui/home/sb.png"></div>
+					<div class="part other toolbarBtn" key="2">
+						<img src="ui/home/hy.png"></div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>

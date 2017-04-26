@@ -6,6 +6,7 @@ import java.util.List;
 import com.demo.model.Device;
 import com.demo.model.DeviceProperty;
 import com.demo.model.LedProperty;
+import com.demo.onenet.PostData;
 import com.demo.redis.RedisAPI;
 import com.demo.util.DataProtocol;
 
@@ -28,7 +29,7 @@ public class GetOrderByDevice {
 		DataProtocol.sendTextToWechat(openId, "您的宝贝设备:"+name+"正处于缺水状态", "deviceAlarm");
 	}
 	
-	public static void statusSync(List<DeviceProperty> deviceProperties,List<LedProperty> ledProperties,String openId, Device device){
+	public static void statusSync(List<DeviceProperty> deviceProperties,List<LedProperty> ledProperties, Device device, String deviceId){
 		int waterLen=0;
 		int ledLen=0;
 		if(deviceProperties!=null){
@@ -47,9 +48,14 @@ public class GetOrderByDevice {
 			waterData+=waterPlan(property);
 		}
 		String lenStr=String.format("%2s", Integer.toHexString(len)).replace(' ', '0');
-		String response="90"+ lenStr.toUpperCase()
-				+"00"+ledData+waterData;
-		DataProtocol.sendDataToDevice(device.getDeviceId(), openId, response, "statusSync");
+		String response=null;
+		if(len==1){
+			response="900102";
+		}
+		else{
+			response="90"+ lenStr.toUpperCase()+"00"+ledData+waterData;
+		}
+		PostData.Post(deviceId, response);
 		
 	}
 	

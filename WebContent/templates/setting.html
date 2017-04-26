@@ -1,0 +1,190 @@
+<div class="navbar">
+  <div class="navbar-inner">
+    <div class="left">
+      <a href="#" class="back myBack"><img src="ui/home/back.png"></a>
+    </div>
+    <div class="center sliding">设置</div>
+  </div>
+</div>
+<div class="pages">
+  <div data-page="settingPage" class="page" id="setting">
+
+    <div class="settingcontent">
+      <div class="info">灯光模式</div>
+      <div class="item">
+        <div class="label">植物光照模式</div>
+        <label class="label-switch">
+          <input id="lightType" type="checkbox" value="false">
+          <div class="checkbox"></div>
+        </label>
+      </div>
+      <div class="info">冷暖模式</div>
+      <div class="item">
+        <div class="leftdiv">
+          <div class="title">冷</div>
+          <div class="color"></div>
+        </div>
+        <input id="colorTem" type="range" name="leght" min="3000" max="6000">
+        <div class="rightdiv">
+          <div class="title">暖</div>
+          <div class="color"></div>
+        </div>
+      </div>
+      <div class="info">伴你睡眠</div>
+      <div class="item">
+        <div class="label" style="font-size: 15px;">灯光定时计划</div>
+        <div class="label-switch colorTimeAdd">
+          <img src="ui/device_setting/tj.png"></div>
+      </div>
+      <div class="item colorItems" style="height: auto;">
+      </div>
+      <br>
+      <div class="info">添加浇水时间段</div>
+      <div class="item watchItems" style="height: auto;">
+      </div>
+      <div class="item" style="background-color: #F5F4F7; border: 0px;">
+        <div class="add waterTimeAdd">
+          <img src="ui/device_setting/tj.png"></div>
+      </div>
+    </div>
+
+
+
+    <div class="bg_addTime addWaterTime" style="display: none;">
+      <div class="addtime">
+        <div class="header">添加时间</div>
+        <div class="input">
+          <div class="part">
+            <input id="input1" class="itmeInput" readonly></div>
+          <div class="part">
+            <input id="input2" class="itmeInput" readonly></div>
+          <div class="part">:</div>
+          <div class="part">
+            <input id="input3" class="itmeInput" readonly></div>
+          <div class="part">
+            <input id="input4" class="itmeInput" readonly></div>
+        </div>
+        <div class="item addTimeRep">
+          <div class="title">重复</div>
+          <div class="subtitle addTimeSub"></div>
+          <div class="img">
+            <img src="ui/device_setting/dk.png"></div>
+        </div>
+        <div class="item">
+          <div class="title">浇水时长</div>
+          <div class="subtitle addWaterTimeSub2">5s</div>
+          <div class="waterTime" style="position: absolute;width: auto;left: 100px;right: 20px;height: 40px;margin-top: 10px">
+            <input id="input_waterTime" type="range" name="water" min="5" max="30" value="5" style="width: 100%;margin-top: 10px;height: 20px;">
+          </div>
+        </div>
+        <div class="foot">
+          <button class="button editFootButton" type="waterNo">取消</button>
+          <button class="button editFootButton" type="waterYes">确定</button>
+        </div>
+      </div>
+    </div>
+    <div class="bg_addTime2 addColorTime" style="display: none;">
+      <div class="addtime">
+        <div class="header">添加时间</div>
+        <div class="input">
+          <div class="part">
+            <input id="input5" class="itmeInput" readonly></div>
+          <div class="part">
+            <input id="input6" class="itmeInput" readonly></div>
+          <div class="part">:</div>
+          <div class="part">
+            <input id="input7" class="itmeInput" readonly></div>
+          <div class="part">
+            <input id="input8" class="itmeInput" readonly></div>
+        </div>
+        <div class="item" style="height: 65px;border: 0px;">
+          <div class="title">时长</div>
+          <div class="subtitle addTypeSub2" style="position: absolute;left: 0px;margin-top: 0px;text-align: center;width: 20px;margin-left: calc(50% - 10px);"></div>
+          <div class="colorTime">
+            <input id="input_ColorTime" type="range" name="water" min="15" max="60" step="15" value="15" style="width: 80%;margin-left: 10%;">
+          </div>
+        </div>
+        <div class="item addTimeRep" style="border-top: 0px;">
+          <div class="title">重复</div>
+          <div class="subtitle addTimeSub"></div>
+          <div class="img">
+            <img src="ui/device_setting/dk.png"></div>
+        </div>
+        <div class="item addTimeType" style="border-top: 0px;">
+          <div class="title">模式</div>
+          <div class="subtitle addTypeSub"></div>
+          <div class="img">
+            <img src="ui/device_setting/dk.png"></div>
+        </div>
+        <div class="foot">
+          <button class="button editFootButton" type="colorNo">取消</button>
+          <button class="button editFootButton" type="colorYes">确定</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="selectRepeatTime time1" style="display: none;">
+      <div class="alertBg">
+        <div class="repeatAlert">
+          <div class="title">重复</div>
+          <div class="item time1Button" index="1">
+            <div class="title">每天</div>
+          </div>
+          <div class="item time1Button" index="2">
+            <div class="title">自定义</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="selectRepeatTime time2" style="display: none;">
+      <div class="alertBg">
+        <div class="customAlert">
+          <div class="title">自定义</div>
+          <div class="allDay">
+            <div class="part">
+              <div class="text time2Buttons" index="1">一</div>
+            </div>
+            <div class="part">
+              <div class="text time2Buttons" index="2">二</div>
+            </div>
+            <div class="part">
+              <div class="text time2Buttons" index="3">三</div>
+            </div>
+            <div class="part">
+              <div class="text time2Buttons" index="4">四</div>
+            </div>
+            <div class="part">
+              <div class="text time2Buttons" index="5">五</div>
+            </div>
+            <div class="part">
+              <div class="text time2Buttons" index="6">六</div>
+            </div>
+            <div class="part">
+              <div class="text time2Buttons" index="7">日</div>
+            </div>
+          </div>
+          <div class="footButton">
+            <button class="button cusTimeButtons" index="no">取消</button>
+            <button class="button cusTimeButtons" index="yes">确定</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="selectRepeatTime type1" style="display: none;">
+      <div class="alertBg">
+        <div class="typeAlert">
+          <div class="title">模式选择</div>
+          <div class="item typeButton" index="1">
+            <div class="title">伴你入睡</div>
+          </div>
+          <div class="item typeButton" index="2">
+            <div class="title">伴你起床</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="picker-date-container" style="background-color: white;"></div>
+
+  </div>
+</div>

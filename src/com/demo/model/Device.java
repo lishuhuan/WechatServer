@@ -30,6 +30,19 @@ public class Device {
 	
 	private int sunModel;
 	
+	private int wifiType;
+	
+	
+	
+	
+	public int getWifiType() {
+		return wifiType;
+	}
+
+	public void setWifiType(int wifiType) {
+		this.wifiType = wifiType;
+	}
+
 	public int getSunModel() {
 		return sunModel;
 	}

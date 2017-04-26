@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.demo.accessToken.GetAccessToken;
+import com.demo.onenet.PostData;
 import com.demo.redis.RedisAPI;
 import com.demo.util.HttpClient;
 
@@ -86,16 +87,9 @@ public class EnergyCollection {
 	}
 	
 	public static Boolean getResponseCode(String device){
-		String token =GetAccessToken.getAccessToken();
-		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("device_type", "gh_3f4fcd63df5d");
-		jsonObject.put("device_id", device);
-		jsonObject.put("service", "");
-		jsonObject.put("user", "oqL-ewTqgIu7Rw3UWu10F75V6si8");
-		JSONObject response = HttpClient.doPost(
-				"https://api.weixin.qq.com/hardware/mydevice/platform/get_device_status?access_token=" + token,
-				jsonObject);
-		if (response.get("error_code").equals(0)) {
+		JSONObject response=PostData.Post(device, "");
+		int resultCode=response.getInt("errno");
+		if (resultCode==0) {
 			return true;
 		}
 		else{

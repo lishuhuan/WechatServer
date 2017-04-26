@@ -14,10 +14,12 @@
 		<result column="light_intensity" property="lightIntensity" />
 		<result column="color_tem" property="colorTem" />
 		<result column="sun_model" property="sunModel" />
+		<result column="wifi_type" property="wifiType" />
+		
 	</resultMap>
 
 	<select id="getDeviceById" resultMap="DeviceResult">
-		SELECT * from device
+		SELECT *,"虚拟设备" as nickName,"0" as isHost from device
 		where
 		device_id=#{deviceId}
 	</select>

@@ -22,9 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.demo.accessToken.GetAccessToken;
 import com.demo.accessToken.ResponseCode;
 import com.demo.accessToken.Sign;
-import com.demo.dao.DeviceDao;
 import com.demo.model.Device;
-import com.demo.model.Relation;
 import com.demo.model.User;
 import com.demo.redis.RedisAPI;
 import com.demo.service.RelationService;
@@ -49,9 +47,6 @@ public class UserBindingController {
 	@Autowired
 	private RelationService relationService;
 	
-	
-	@Autowired
-	private DeviceDao deviceDao;
 
 	@RequestMapping(value = "/test")
 	public ModelAndView test(HttpServletRequest request, HttpServletResponse response) {
@@ -98,7 +93,7 @@ public class UserBindingController {
 			deviceListStatus.start();
 		}
 		else {
-			Device device=deviceDao.getDeviceById("10000");
+			Device device=userBindingService.getDeviceByVirtualId("10000");
 			list.add(device);
 		}
 		return list;
@@ -166,6 +161,10 @@ public class UserBindingController {
 	public @ResponseBody JSONObject bindDevice(@RequestBody String json)
 			throws ParseException, IOException {
 		String deviceId=(String) JsonUtil.jsonTranslate(json,"deviceId");
+		if ("10000".equals(deviceId)) {
+			return ResponseCode.response(0, "");
+		}
+		
 		String openId=(String) JsonUtil.jsonTranslate(json,"openId");
 		String timestamp=(String) JsonUtil.jsonTranslate(json,"timestamp");
 		long stamp=Long.parseLong(timestamp);
@@ -266,6 +265,11 @@ public class UserBindingController {
 	@ResponseBody
 	public JSONObject getSunPower(@RequestBody String json){
 		String deviceId = (String) JsonUtil.jsonTranslate(json, "deviceId");
+		String openId = (String) JsonUtil.jsonTranslate(json, "openId");
+		boolean state=RedisAPI.Sismember("collect"+deviceId, openId);
+		if(state){
+			return ResponseCode.response(1, "you have collected");
+		}
 		List<String> list=RedisAPI.lrange("sun"+deviceId,0,-1);
 		return ResponseCode.response(0, list);
 		

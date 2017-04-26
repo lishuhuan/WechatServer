@@ -23,5 +23,9 @@ public class GetAccessToken {
 		} else
 			return "error";
 	}
+	
+	public static void main(String[] args) {
+		System.out.println(getAccessToken());
+	}
 
 }

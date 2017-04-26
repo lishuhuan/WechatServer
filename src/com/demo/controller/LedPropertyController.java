@@ -28,6 +28,10 @@ public class LedPropertyController {
 	@RequestMapping(value = "/sleepAndGetupLed")
 	public @ResponseBody JSONObject setSleepAndGetupLed(@RequestBody String json) {
 		String deviceId=(String) JsonUtil.jsonTranslate(json,"deviceId");
+		if("10000".equals(deviceId)){
+			return ResponseCode.response(0, true);
+		}
+		
 		String openId=(String) JsonUtil.jsonTranslate(json,"openId");
 		String model = (String) JsonUtil.jsonTranslate(json, "model");
 		String type = (String) JsonUtil.jsonTranslate(json, "type");
@@ -79,6 +83,10 @@ public class LedPropertyController {
 	public @ResponseBody JSONObject sunPowerPlan(@RequestBody String json) {
 		try {
 			String deviceId=(String) JsonUtil.jsonTranslate(json,"deviceId");
+			if("10000".equals(deviceId)){
+				return ResponseCode.response(0, true);
+			}
+			
 			String isOpen=(String) JsonUtil.jsonTranslate(json,"isOpen");
 			boolean state=ledPropertyService.setSunPowerPlan(deviceId,isOpen);
 			if(state){
@@ -98,6 +106,10 @@ public class LedPropertyController {
 	public @ResponseBody JSONObject updatePowerAndCt(@RequestBody String json) {
 		try {
 			String deviceId=(String) JsonUtil.jsonTranslate(json,"deviceId");
+			if("10000".equals(deviceId)){
+				return ResponseCode.response(0, true);
+			}
+			
 			String type=(String) JsonUtil.jsonTranslate(json,"type");
 			String power=(String) JsonUtil.jsonTranslate(json,"power");
 			boolean state=ledPropertyService.updatePowerAndCt(deviceId,type,power);

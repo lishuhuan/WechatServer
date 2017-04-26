@@ -22,6 +22,10 @@ public class DevicePropertyController {
 	@RequestMapping(value = "/setDeviceProperty")
 	public @ResponseBody Boolean setDeviceProperty(@RequestBody String json){
 		String deviceId=(String) JsonUtil.jsonTranslate(json,"deviceId");
+		if("10000".equals(deviceId)){
+			return true;
+		}
+		
 		String openId=(String) JsonUtil.jsonTranslate(json,"openId");
 		String name=(String) JsonUtil.jsonTranslate(json,"name");
 		String time=(String) JsonUtil.jsonTranslate(json,"time");

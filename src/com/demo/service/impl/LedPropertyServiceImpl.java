@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,13 +15,13 @@ import com.demo.dao.LedPropertyDao;
 import com.demo.dao.RelationDao;
 import com.demo.model.Device;
 import com.demo.model.LedProperty;
+import com.demo.onenet.PostData;
 import com.demo.service.LedPropertyService;
-import com.demo.util.DataProtocol;
 
 @Service("LedPropertyService")
 public class LedPropertyServiceImpl implements LedPropertyService {
 
-	private static Logger logger = Logger.getLogger(LedPropertyServiceImpl.class);
+	//private static Logger logger = Logger.getLogger(LedPropertyServiceImpl.class);
 
 	@Autowired
 	private LedPropertyDao ledPropertyDao;
@@ -91,13 +90,12 @@ public class LedPropertyServiceImpl implements LedPropertyService {
 			String type, String repeat, int tag) {
 		// TODO Auto-generated method stub
 		String data = ledPlan(model, duration, time, type, repeat, deviceId,tag);
-		DataProtocol.sendDataToDevice(deviceId, openId, data, "ledPlan");
+		PostData.Post(deviceId, data);
 	}
 
 	private String ledPlan(String model, String duration, String time, String type, String repeat, String deviceId, int tag) {
 		// TODO Auto-generated method stub
 		String m = "01";
-		Device device = deviceDao.getDeviceById(deviceId);
 		//int intensity = Integer.parseInt(device.getLightIntensity());
 		//int ct = Integer.parseInt(device.getColorTem());
 		String startIntensity = String.format("%2s", Integer.toHexString(30)).replace(' ', '0');
@@ -172,8 +170,7 @@ public class LedPropertyServiceImpl implements LedPropertyService {
 		// TODO Auto-generated method stub
 		LedProperty property=ledPropertyDao.getPropertyById(propertyId);
 		String data="A501"+String.format("%2s", Integer.toHexString(property.getTag())).replace(' ', '0');
-		String openId=relationDao.getOpenIdByDeviceHost(property.getDeviceId());
-		DataProtocol.sendDataToDevice(property.getDeviceId(), openId, data, "sunPlanDelete");
+		PostData.Post(property.getDeviceId(), data);
 	}
 
 	@Override
@@ -191,15 +188,13 @@ public class LedPropertyServiceImpl implements LedPropertyService {
 			tag="01";
 		}
 		String data="A301"+tag;
-		String openId=relationDao.getOpenIdByDeviceHost(deviceId);
-		DataProtocol.sendDataToDevice(deviceId, openId, data, "sunModel");
+		PostData.Post(deviceId, data);
 	}
 
 	@Override
 	public boolean updatePowerAndCt(String deviceId, String type, String power) {
 		// TODO Auto-generated method stub
 		Device device=deviceDao.getDeviceById(deviceId);
-		String openId=relationDao.getOpenIdByDeviceHost(deviceId);
 		String data="";
 		if(type.equals("1")){
 			int intensity=Integer.parseInt(device.getLightIntensity());
@@ -213,7 +208,7 @@ public class LedPropertyServiceImpl implements LedPropertyService {
 			data="0203"+String.format("%2s", Integer.toHexString(intensity)).replace(' ', '0')
 					+String.format("%4s", Integer.toHexString(ct)).replace(' ', '0');
 		}
-		DataProtocol.sendDataToDevice(deviceId, openId, data, "ledChange");
+		PostData.Post(deviceId, data);
 		deviceDao.updatePowerAndCt(deviceId, type, power);
 		return true;
 	}

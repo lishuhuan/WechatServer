@@ -14,9 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.demo.device.FutureMap;
-import com.demo.device.SyncFuture;
-import com.demo.model.ResponseData;
 import com.demo.service.MessageAnalysisService;
 import com.demo.util.SignUtil;
 
@@ -32,16 +29,16 @@ public class MessageAnalysisController {
 
 	@RequestMapping(value = { "/wechat" }, method = RequestMethod.GET)
 	public void wechatGet(HttpServletRequest request, HttpServletResponse response) throws ParseException, IOException {
-		// ΢�ż���ǩ��
+
 		String signature = request.getParameter("signature");
-		// ʱ���
+
 		String timestamp = request.getParameter("timestamp");
-		// �����
+
 		String nonce = request.getParameter("nonce");
-		// ����ַ���
+
 		String echostr = request.getParameter("echostr");
 		PrintWriter out = response.getWriter();
-		// ͨ������signature���������У�飬��У��ɹ���ԭ������echostr����ʾ����ɹ����������ʧ��
+
 		if (SignUtil.checkSignature(signature, timestamp, nonce)) {
 			out.print(echostr);
 		}
@@ -49,7 +46,6 @@ public class MessageAnalysisController {
 		out = null;
 	}
 
-	// @Cacheable(value="baseCache")
 	@RequestMapping(value = { "/wechat" }, method = RequestMethod.POST)
 	public void wechatPost(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("UTF-8");
@@ -66,29 +62,9 @@ public class MessageAnalysisController {
 		JSONObject jsonObject = JSONObject.fromObject(json.toString());
 		logger.info(jsonObject);
 		if (jsonObject.containsKey("msg_type")) {
-			// ���뻺��
-			if (jsonObject.get("msg_type").equals("get_resp")) {
-				SyncFuture<Object> future=FutureMap.getFutureMap(jsonObject.getString("msg_id")+"_Get");
-				if(future!=null){
-					future.setResponse(jsonObject);
-				}
-			}
-			if (jsonObject.get("msg_type").equals("set_resp")) {
-				ResponseData result = messageAnalysisService.getData(jsonObject);
-				System.out.println(result.getAsyErrorMsg()+result.getAsyErrorMsg());
-				
-				SyncFuture<Object> future=FutureMap.getFutureMap(result.getMsgId()+"_Set");
-				if(future!=null){
-					future.setResponse(result);
-				}
-			}
 			if (jsonObject.get("msg_type").equals("bind") || jsonObject.get("msg_type").equals("unbind")) {
 				messageAnalysisService.deviceBind(jsonObject);
 			}
-			if(jsonObject.get("msg_type").equals("notify")){
-				messageAnalysisService.getMessageByNotify(jsonObject);
-			}
-		} else {
 		}
 		
 	}
