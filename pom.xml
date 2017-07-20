@@ -7,8 +7,8 @@
 	<packaging>war</packaging>
 
 	<dependencies>
-
-		<!-- https://mvnrepository.com/artifact/org.quartz-scheduler/quartz -->
+<!-- 
+		https://mvnrepository.com/artifact/org.quartz-scheduler/quartz
 		<dependency>
 			<groupId>org.quartz-scheduler</groupId>
 			<artifactId>quartz</artifactId>
@@ -33,21 +33,21 @@
 			<version>1.10</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/commons-httpclient/commons-httpclient -->
+		https://mvnrepository.com/artifact/commons-httpclient/commons-httpclient
 		<dependency>
 			<groupId>commons-httpclient</groupId>
 			<artifactId>commons-httpclient</artifactId>
 			<version>3.1</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/com.alibaba/druid -->
+		https://mvnrepository.com/artifact/com.alibaba/druid
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>druid</artifactId>
 			<version>1.0.23</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
+		https://mvnrepository.com/artifact/commons-codec/commons-codec
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
@@ -56,15 +56,14 @@
 
 
 
-
-		<!-- https://mvnrepository.com/artifact/redis.clients/jedis -->
+		https://mvnrepository.com/artifact/redis.clients/jedis
 		<dependency>
 			<groupId>redis.clients</groupId>
 			<artifactId>jedis</artifactId>
 			<version>2.9.0</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/com.github.pagehelper/pagehelper -->
+		https://mvnrepository.com/artifact/com.github.pagehelper/pagehelper
 		<dependency>
 			<groupId>com.github.pagehelper</groupId>
 			<artifactId>pagehelper</artifactId>
@@ -72,35 +71,35 @@
 		</dependency>
 
 
-		<!-- https://mvnrepository.com/artifact/aopalliance/aopalliance -->
+		https://mvnrepository.com/artifact/aopalliance/aopalliance
 		<dependency>
 			<groupId>aopalliance</groupId>
 			<artifactId>aopalliance</artifactId>
 			<version>1.0</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/commons-dbcp/commons-dbcp -->
+		https://mvnrepository.com/artifact/commons-dbcp/commons-dbcp
 		<dependency>
 			<groupId>commons-dbcp</groupId>
 			<artifactId>commons-dbcp</artifactId>
 			<version>1.4</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis-spring -->
+		https://mvnrepository.com/artifact/org.mybatis/mybatis-spring
 		<dependency>
 			<groupId>org.mybatis</groupId>
 			<artifactId>mybatis-spring</artifactId>
 			<version>1.2.2</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
+		https://mvnrepository.com/artifact/org.mybatis/mybatis
 		<dependency>
 			<groupId>org.mybatis</groupId>
 			<artifactId>mybatis</artifactId>
 			<version>3.3.0</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/com.github.jsqlparser/jsqlparser -->
+		https://mvnrepository.com/artifact/com.github.jsqlparser/jsqlparser
 		<dependency>
 			<groupId>com.github.jsqlparser</groupId>
 			<artifactId>jsqlparser</artifactId>
@@ -108,7 +107,7 @@
 		</dependency>
 
 
-
+ -->
 	</dependencies>
 
 

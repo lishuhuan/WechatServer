@@ -199,7 +199,7 @@ public class MessageAnalysisServiceImpl implements MessageAnalysisService {
 		content.put("title", "绑定设备:" + name);
 		content.put("desription", "在这里，您可以绑定您的设备，随时随地照顾您的植物");
 		content.put("url",
-				"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx2c97180bd57e660f&redirect_uri=http%3a%2f%2fwww.shuaikang.iego.cn%2fWechatServer&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect");
+				"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx2c97180bd57e660f&redirect_uri=http%3a%2f%2fwww.lvjianit.com%2fWechatServer%2f&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect");
 		content.put("picurl", "http://121.40.65.146/flower_photo/huapen.png");
 		JSONArray jsonArray = new JSONArray();
 		jsonArray.add(content);
