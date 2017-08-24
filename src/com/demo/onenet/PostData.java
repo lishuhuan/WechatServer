@@ -13,13 +13,13 @@ public class PostData {
 		jsonObject.put("cmd", data);
 		logger.info(jsonObject);
 		String result = HttpClientUtil.onenetPost("http://api.heclouds.com/cmds?device_id="+deviceId, jsonObject.toString(), "api-key",
-				"y=DHRFRL0JeYN5oZ0Ohctw56TTk=");
+				"86Mh=64iCtTJdXRx=sUdT=G75qw=");
 		logger.info(result);
 		return JSONObject.fromObject(result);
 	}
 	
 	public static void main(String[] args) {
-		JSONObject result=Post("4093576", "880101");
+		JSONObject result=Post("10031358", "880101");
 		System.out.println(result);
 	}
 

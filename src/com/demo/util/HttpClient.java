@@ -165,7 +165,7 @@ public class HttpClient {
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("cmd", "");
 		String result = onenetPost("http://api.heclouds.com/cmds?device_id=4093565", jsonObject.toString(), "api-key",
-				"y=DHRFRL0JeYN5oZ0Ohctw56TTk=");
+				"86Mh=64iCtTJdXRx=sUdT=G75qw=");
 		System.out.println(result);
 	}
 
